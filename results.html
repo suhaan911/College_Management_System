@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Results — College Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="/index.html"><div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="logo-text">EduManage<span>College System</span></div></a>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div><a class="nav-item" href="/index.html"><i class="fa-solid fa-gauge-high"></i><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Academic</div>
+      <a class="nav-item" href="/departments.html"><i class="fa-solid fa-building-columns"></i><span class="nav-label">Departments</span></a>
+      <a class="nav-item" href="/courses.html"><i class="fa-solid fa-book-open"></i><span class="nav-label">Courses</span></a>
+      <a class="nav-item" href="/classes.html"><i class="fa-solid fa-chalkboard-user"></i><span class="nav-label">Classes</span></a>
+      <div class="nav-section-label">People</div>
+      <a class="nav-item" href="/students.html"><i class="fa-solid fa-user-graduate"></i><span class="nav-label">Students</span></a>
+      <a class="nav-item" href="/faculty.html"><i class="fa-solid fa-person-chalkboard"></i><span class="nav-label">Faculty</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a class="nav-item" href="/enrollments.html"><i class="fa-solid fa-file-circle-check"></i><span class="nav-label">Enrollments</span></a>
+      <a class="nav-item" href="/attendance.html"><i class="fa-solid fa-calendar-check"></i><span class="nav-label">Attendance</span></a>
+      <a class="nav-item" href="/exams.html"><i class="fa-solid fa-file-pen"></i><span class="nav-label">Exams</span></a>
+      <a class="nav-item" href="/results.html"><i class="fa-solid fa-chart-line"></i><span class="nav-label">Results</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a class="nav-item" href="/reports.html"><i class="fa-solid fa-chart-pie"></i><span class="nav-label">Reports & Analytics</span></a>
+    </nav>
+    <div class="sidebar-footer"><button class="sidebar-toggle-btn" id="sidebarToggle"><i class="fa-solid fa-chevron-left"></i></button></div>
+  </aside>
+  <div class="main-content" id="mainContent">
+    <header class="top-header">
+      <button class="header-btn" id="mobileToggle"><i class="fa-solid fa-bars"></i></button>
+      <h1 class="page-title">Results <span>Management</span></h1>
+      <div class="header-actions"><button class="btn btn-primary" id="btnAdd"><i class="fa-solid fa-plus"></i> Add Result</button></div>
+    </header>
+    <main class="page-body">
+
+      <!-- KPI row -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;" id="resultKPI"></div>
+
+      <!-- Highest Marks -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-trophy" style="color:#F59E0B"></i> Top 10 Highest Marks</div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Rank</th><th>Student</th><th>Course</th><th>Exam</th><th>Marks</th><th>Total</th><th>%</th><th>Grade</th></tr></thead>
+            <tbody id="highestBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- All Results (StudentResultView) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-chart-line"></i> All Results (StudentResultView)</div>
+          <div class="toolbar">
+            <select class="filter-select" id="studentFilter"><option value="">All Students</option></select>
+            <select class="filter-select" id="courseFilter"><option value="">All Courses</option></select>
+          </div>
+        </div>
+        <div class="table-wrapper" id="tableWrapper">
+          <table id="resultsTable">
+            <thead><tr>
+              <th>Student</th><th>Department</th><th>Course</th><th>Exam</th>
+              <th>Type</th><th data-sort="marks">Marks<i class="fa-solid fa-sort"></i></th>
+              <th>Total</th><th data-sort="pct">%<i class="fa-solid fa-sort"></i></th><th>Grade</th>
+            </tr></thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination-wrapper"><div class="pagination-info" id="pgInfo"></div><div class="pagination-btns" id="pgBtns"></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add Result Modal -->
+<div class="modal-overlay" id="resultModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fa-solid fa-chart-line"></i> Add Result</div>
+      <button class="modal-close" data-modal-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="resultForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Student <span class="required">*</span></label>
+          <select class="form-select" id="f_student" required><option value="">Select Student</option></select>
+          <div class="form-error"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Exam <span class="required">*</span></label>
+          <select class="form-select" id="f_exam" required><option value="">Select Exam</option></select>
+          <div class="form-error"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Marks Obtained <span class="required">*</span></label>
+          <input class="form-input" id="f_marks" type="number" min="0" required placeholder="e.g. 85"/>
+          <div class="form-error"></div>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Negative marks are blocked by the CheckMarks trigger. Grade is auto-assigned.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Remarks</label>
+          <input class="form-input" id="f_remarks" placeholder="e.g. Excellent"/>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-modal-close>Cancel</button>
+      <button class="btn btn-primary" id="btnSave"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+    </div>
+  </div>
+</div>
+<script src="/js/app.js"></script>
+<script src="/js/results.js"></script>
+</body>
+</html>

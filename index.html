@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — College Management System</title>
+  <meta name="description" content="College Management System Dashboard — view key metrics, top scorers, department stats, and charts."/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="/index.html">
+      <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="logo-text">EduManage<span>College System</span></div>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-item" href="/index.html"><i class="fa-solid fa-gauge-high"></i><span class="nav-label">Dashboard</span></a>
+
+      <div class="nav-section-label">Academic</div>
+      <a class="nav-item" href="/departments.html"><i class="fa-solid fa-building-columns"></i><span class="nav-label">Departments</span></a>
+      <a class="nav-item" href="/courses.html"><i class="fa-solid fa-book-open"></i><span class="nav-label">Courses</span></a>
+      <a class="nav-item" href="/classes.html"><i class="fa-solid fa-chalkboard-user"></i><span class="nav-label">Classes</span></a>
+
+      <div class="nav-section-label">People</div>
+      <a class="nav-item" href="/students.html"><i class="fa-solid fa-user-graduate"></i><span class="nav-label">Students</span></a>
+      <a class="nav-item" href="/faculty.html"><i class="fa-solid fa-person-chalkboard"></i><span class="nav-label">Faculty</span></a>
+
+      <div class="nav-section-label">Operations</div>
+      <a class="nav-item" href="/enrollments.html"><i class="fa-solid fa-file-circle-check"></i><span class="nav-label">Enrollments</span></a>
+      <a class="nav-item" href="/attendance.html"><i class="fa-solid fa-calendar-check"></i><span class="nav-label">Attendance</span></a>
+      <a class="nav-item" href="/exams.html"><i class="fa-solid fa-file-pen"></i><span class="nav-label">Exams</span></a>
+      <a class="nav-item" href="/results.html"><i class="fa-solid fa-chart-line"></i><span class="nav-label">Results</span></a>
+
+      <div class="nav-section-label">Insights</div>
+      <a class="nav-item" href="/reports.html"><i class="fa-solid fa-chart-pie"></i><span class="nav-label">Reports & Analytics</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle-btn" id="sidebarToggle"><i class="fa-solid fa-chevron-left"></i></button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content" id="mainContent">
+    <header class="top-header">
+      <button class="header-btn" id="mobileToggle" style="display:none"><i class="fa-solid fa-bars"></i></button>
+      <h1 class="page-title">Dashboard <span>Overview</span></h1>
+      <div class="header-actions">
+        <span id="clockDisplay" style="font-size:13px;color:var(--text-muted);font-weight:500;"></span>
+        <div class="user-avatar" data-tip="Admin">A</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <!-- KPI Cards -->
+      <div class="kpi-grid" id="kpiGrid">
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+        <div class="kpi-card skeleton" style="height:100px;"></div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="chart-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-chart-pie"></i> Dept-wise Students</div>
+          </div>
+          <div class="card-body"><div class="chart-container"><canvas id="deptChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Course Enrollments</div>
+          </div>
+          <div class="card-body"><div class="chart-container"><canvas id="enrollChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-star"></i> Grade Distribution</div>
+          </div>
+          <div class="card-body"><div class="chart-container"><canvas id="gradeChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-chart-line"></i> Avg Marks per Course</div>
+          </div>
+          <div class="card-body"><div class="chart-container"><canvas id="marksChart"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="chart-grid" style="grid-template-columns: 1fr 1fr;">
+        <!-- Top Scorers -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-trophy"></i> Top Scorers</div>
+            <a href="/results.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <div class="card-body" id="topScorersBody">
+            <div class="spinner" style="margin:20px auto;display:block;"></div>
+          </div>
+        </div>
+
+        <!-- Above Average Students -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-fire"></i> Above Average</div>
+            <a href="/results.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <div class="card-body" id="aboveAvgBody">
+            <div class="spinner" style="margin:20px auto;display:block;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

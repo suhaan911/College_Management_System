@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attendance — College Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="/index.html"><div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="logo-text">EduManage<span>College System</span></div></a>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div><a class="nav-item" href="/index.html"><i class="fa-solid fa-gauge-high"></i><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Academic</div>
+      <a class="nav-item" href="/departments.html"><i class="fa-solid fa-building-columns"></i><span class="nav-label">Departments</span></a>
+      <a class="nav-item" href="/courses.html"><i class="fa-solid fa-book-open"></i><span class="nav-label">Courses</span></a>
+      <a class="nav-item" href="/classes.html"><i class="fa-solid fa-chalkboard-user"></i><span class="nav-label">Classes</span></a>
+      <div class="nav-section-label">People</div>
+      <a class="nav-item" href="/students.html"><i class="fa-solid fa-user-graduate"></i><span class="nav-label">Students</span></a>
+      <a class="nav-item" href="/faculty.html"><i class="fa-solid fa-person-chalkboard"></i><span class="nav-label">Faculty</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a class="nav-item" href="/enrollments.html"><i class="fa-solid fa-file-circle-check"></i><span class="nav-label">Enrollments</span></a>
+      <a class="nav-item" href="/attendance.html"><i class="fa-solid fa-calendar-check"></i><span class="nav-label">Attendance</span></a>
+      <a class="nav-item" href="/exams.html"><i class="fa-solid fa-file-pen"></i><span class="nav-label">Exams</span></a>
+      <a class="nav-item" href="/results.html"><i class="fa-solid fa-chart-line"></i><span class="nav-label">Results</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a class="nav-item" href="/reports.html"><i class="fa-solid fa-chart-pie"></i><span class="nav-label">Reports & Analytics</span></a>
+    </nav>
+    <div class="sidebar-footer"><button class="sidebar-toggle-btn" id="sidebarToggle"><i class="fa-solid fa-chevron-left"></i></button></div>
+  </aside>
+  <div class="main-content" id="mainContent">
+    <header class="top-header">
+      <button class="header-btn" id="mobileToggle"><i class="fa-solid fa-bars"></i></button>
+      <h1 class="page-title">Attendance <span>Tracking</span></h1>
+      <div class="header-actions">
+        <button class="btn btn-primary" id="btnAdd"><i class="fa-solid fa-plus"></i> Mark Attendance</button>
+      </div>
+    </header>
+    <main class="page-body">
+
+      <!-- Summary Cards -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px;">
+        <div class="kpi-card" style="--card-accent:#10B981;--card-accent-bg:rgba(16,185,129,0.15);">
+          <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="kpi-info"><div class="kpi-label">Present</div><div class="kpi-value" id="presentCount">—</div></div>
+        </div>
+        <div class="kpi-card" style="--card-accent:#EF4444;--card-accent-bg:rgba(239,68,68,0.15);">
+          <div class="kpi-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div class="kpi-info"><div class="kpi-label">Absent</div><div class="kpi-value" id="absentCount">—</div></div>
+        </div>
+        <div class="kpi-card" style="--card-accent:#F59E0B;--card-accent-bg:rgba(245,158,11,0.15);">
+          <div class="kpi-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="kpi-info"><div class="kpi-label">Late</div><div class="kpi-value" id="lateCount">—</div></div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="grid-template-columns:1fr 1fr;">
+        <!-- Attendance Records -->
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-calendar-check"></i> Attendance Records</div>
+            <div class="toolbar">
+              <select class="filter-select" id="courseFilter"><option value="">All Courses</option></select>
+              <input type="date" class="form-input" id="dateFilter" style="width:auto;padding:9px 12px;"/>
+              <select class="filter-select" id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Late">Late</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrapper" id="tableWrapper">
+            <table id="attendTable">
+              <thead><tr>
+                <th>#</th><th>Student</th><th>Course</th>
+                <th data-sort="date">Date<i class="fa-solid fa-sort"></i></th>
+                <th>Time</th><th>Room</th><th>Status</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="attendBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination-wrapper"><div class="pagination-info" id="pgInfo"></div><div class="pagination-btns" id="pgBtns"></div></div>
+        </div>
+
+        <!-- Summary Table -->
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Student Attendance Summary</div>
+            <select class="filter-select" id="summaryCoursFilter"><option value="">All Courses</option></select>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Student</th><th>Total Classes</th><th>Present</th><th>Attendance %</th><th>Status</th></tr></thead>
+              <tbody id="summaryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="attendModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fa-solid fa-calendar-check"></i> Mark Attendance</div>
+      <button class="modal-close" data-modal-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="attendForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Student <span class="required">*</span></label>
+          <select class="form-select" id="f_student" required><option value="">Select Student</option></select>
+          <div class="form-error"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Class <span class="required">*</span></label>
+          <select class="form-select" id="f_class" required><option value="">Select Class</option></select>
+          <div class="form-error"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="f_status">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Late">Late</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-modal-close>Cancel</button>
+      <button class="btn btn-primary" id="btnSave"><i class="fa-solid fa-floppy-disk"></i> Mark</button>
+    </div>
+  </div>
+</div>
+<script src="/js/app.js"></script>
+<script src="/js/attendance.js"></script>
+</body>
+</html>

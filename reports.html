@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports & Analytics — College Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="/index.html"><div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="logo-text">EduManage<span>College System</span></div></a>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div><a class="nav-item" href="/index.html"><i class="fa-solid fa-gauge-high"></i><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Academic</div>
+      <a class="nav-item" href="/departments.html"><i class="fa-solid fa-building-columns"></i><span class="nav-label">Departments</span></a>
+      <a class="nav-item" href="/courses.html"><i class="fa-solid fa-book-open"></i><span class="nav-label">Courses</span></a>
+      <a class="nav-item" href="/classes.html"><i class="fa-solid fa-chalkboard-user"></i><span class="nav-label">Classes</span></a>
+      <div class="nav-section-label">People</div>
+      <a class="nav-item" href="/students.html"><i class="fa-solid fa-user-graduate"></i><span class="nav-label">Students</span></a>
+      <a class="nav-item" href="/faculty.html"><i class="fa-solid fa-person-chalkboard"></i><span class="nav-label">Faculty</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a class="nav-item" href="/enrollments.html"><i class="fa-solid fa-file-circle-check"></i><span class="nav-label">Enrollments</span></a>
+      <a class="nav-item" href="/attendance.html"><i class="fa-solid fa-calendar-check"></i><span class="nav-label">Attendance</span></a>
+      <a class="nav-item" href="/exams.html"><i class="fa-solid fa-file-pen"></i><span class="nav-label">Exams</span></a>
+      <a class="nav-item" href="/results.html"><i class="fa-solid fa-chart-line"></i><span class="nav-label">Results</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a class="nav-item" href="/reports.html"><i class="fa-solid fa-chart-pie"></i><span class="nav-label">Reports & Analytics</span></a>
+    </nav>
+    <div class="sidebar-footer"><button class="sidebar-toggle-btn" id="sidebarToggle"><i class="fa-solid fa-chevron-left"></i></button></div>
+  </aside>
+  <div class="main-content" id="mainContent">
+    <header class="top-header">
+      <button class="header-btn" id="mobileToggle"><i class="fa-solid fa-bars"></i></button>
+      <h1 class="page-title">Reports & Analytics <span>Insights</span></h1>
+    </header>
+    <main class="page-body">
+
+      <!-- Charts Row 1 -->
+      <div class="chart-grid">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-chart-pie"></i> Department-wise Student Count</div></div>
+          <div class="card-body"><div class="chart-container"><canvas id="deptChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-chart-bar"></i> Course-wise Enrollment</div></div>
+          <div class="card-body"><div class="chart-container"><canvas id="enrollChart"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- Charts Row 2 -->
+      <div class="chart-grid">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-star"></i> Grade Distribution</div></div>
+          <div class="card-body"><div class="chart-container"><canvas id="gradeChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-chart-line"></i> Course Performance (Avg / Max / Min Marks)</div></div>
+          <div class="card-body"><div class="chart-container"><canvas id="performanceChart"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- Faculty Teaching Report -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-person-chalkboard"></i> Faculty Teaching Report</div></div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Faculty</th><th>Designation</th><th>Department</th><th>Courses Taught</th><th># Courses</th></tr></thead>
+            <tbody id="facultyReport"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Above Average Students -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-fire"></i> Students Scoring Above Average</div></div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>#</th><th>Student</th><th>Department</th><th>Average Marks</th><th>Performance</th></tr></thead>
+            <tbody id="aboveAvgReport"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Top Scorers -->
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-trophy"></i> Top 5 Scorers</div></div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Rank</th><th>Student</th><th>Department</th><th>Avg Marks</th><th>Highest</th><th>Exams Taken</th></tr></thead>
+            <tbody id="topScorers"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="/js/app.js"></script>
+<script src="/js/reports.js"></script>
+</body>
+</html>
